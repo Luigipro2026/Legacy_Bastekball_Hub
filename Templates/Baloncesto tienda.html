@@ -1,0 +1,434 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legacy Basketball Hub</title>
+    <!-- Hoja de estilos compartida por todas las paginas. -->
+    <link rel="stylesheet" href="../Static/Css/Estilos.css">
+</head>
+<body>
+    <!-- Fondo decorativo controlado por el carrusel de JavaScript. -->
+    <div id="bgCarousel" class="bg-carousel" aria-hidden="true"></div>
+    <div class="container">
+        <header class="hero">
+            <!-- Navegación compartida: enlaza las secciones y expone cesta, cuenta y moneda. -->
+            <nav class="top-nav">
+                <div class="brand">
+                    <div class="logo"><img src="../Static/Img/logo.jpg" alt="Legacy Basketball Hub logo" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80';" /></div>
+                    <div>
+                        <h1>Legacy Basketball Hub</h1>
+                        <small>Tu tienda de Baloncesto profesional</small>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="Baloncesto tienda.html" title="Inicio">Inicio🏠</a></li>
+                    <li><a href="productos.html" title="Productos">Productos🏀</a></li>
+                    <li><a href="ofertas.html" title="Ofertas">Ofertas🏷️</a></li>
+                    <li><a href="conoce.html" title="Conoce">Conoce📘</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="nav-session-actions">
+                        <div class="nav-session-buttons">
+                            <a class="nav-cart" href="cesta.html" title="Cesta">
+                                🧺
+                                <span id="cartCount" class="cart-badge" aria-label="Productos en la cesta"></span>
+                            </a>
+                            <a id="loginBtn" class="btn btn-outline login-icon-button" href="sesion.html" aria-label="Iniciar sesión o registrarse" title="Iniciar sesión o registrarse">
+                                <img src="../Static/Img/Inicio de sesion.png" alt="" />
+                            </a>
+                        </div>
+                        <select id="currencySelector" class="currency-selector" aria-label="Seleccionar moneda">
+                            <option value="USD">USD</option>
+                            <option value="MXN">MXN</option>
+                            <option value="COP">COP</option>
+                            <option value="PEN">PEN</option>
+                            <option value="EUR">EUR</option>
+                        </select>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Portada de la tienda con accesos al catálogo y controles del carrusel. -->
+            <div class="hero-main">
+                <div class="hero-copy">
+                    <p class="eyebrow">Edición limitada 2026</p>
+                    <h2>Lo mejor en Baloncesto, al estilo World Cup.</h2>
+                    <p>Compra balones, zapatillas y equipamiento con envío rápido y precios de oferta.</p>
+                    <div class="hero-actions">
+                        <a href="productos.html" class="btn btn-primary">Comprar ahora</a>
+                        <a href="https://about.fiba.basketball/es/our-sport/basketball" class="btn btn-link" target="_blank" rel="noreferrer">Conoce FIBA</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img id="heroImage" src="../Static/imagenes Minicarrusel/Baloncesto 1.jpg" alt="Baloncesto" />
+                    <div class="carousel-controls">
+                        <button id="prevSlide" class="carousel-btn" aria-label="Anterior">‹</button>
+                        <button id="nextSlide" class="carousel-btn" aria-label="Siguiente">›</button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Estos contenedores vacíos reciben ofertas y productos desde el catálogo JavaScript. -->
+            <section id="ofertas" class="landing-offers">
+                <div><h2>Ofertas del día</h2></div>
+                <div id="offers" class="offer-grid">
+                    <!-- Ofertas se renderizarán aquí -->
+                </div>
+            </section>
+
+            <section class="filters" id="productos">
+                <div class="filters-left">
+                    <h2>Productos destacados</h2>
+                    <p class="muted">Encuentra balones, zapatos y accesorios top.</p>
+                </div>
+                <div class="filters-options">
+                    <select id="categoryFilter" class="input-filter">
+                        <option value="all">Todas las categorías</option>
+                        <option value="Balones">Balones</option>
+                        <option value="Zapatos">Zapatos</option>
+                        <option value="Camisetas">Camisetas</option>
+                        <option value="Accesorios">Accesorios</option>
+                    </select>
+                    <input id="searchBox" class="input-filter" type="text" placeholder="Buscar producto..." />
+                </div>
+            </section>
+            <section>
+                <div id="products" class="grid"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Se carga primero el catálogo compartido; el script siguiente prepara la página de inicio. -->
+    <script src="../Static/Js/productos.js"></script>
+    <script>
+        // Imagen de respaldo para mostrar un balón si una ruta local está vacía o no carga.
+        const fallbackBasketImage = 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=900&q=80';
+
+        // Construye una etiqueta de imagen con ruta normalizada, carga diferida opcional y respaldo ante error.
+        function imageTag(src, alt, options = {}) {
+            const safeSrc = normalizeImageSource(src);
+            const attrs = options.loading ? `loading="${options.loading}"` : '';
+            return `<img src="${safeSrc}" alt="${alt}" ${attrs} onerror="this.onerror=null;this.src='${fallbackBasketImage}';" />`;
+        }
+
+        // Imágenes representativas por categoría para corregir rutas incompletas del catálogo de respaldo.
+        const categoryImages = {
+            Balones: ['../Static/Img/Balones/BALON BASKETBALL CLASICO NO. 3 ZOOM Z6004/BALON BASKETBALL CLASICO NO. 3 ZOOM Z6004 1.webp'],
+            Zapatos: ['../Static/Img/Zapatos/Adidas Harden Vol 9/Adidas Harden Vol 9 1.webp'],
+            Ropa: ['../Static/Img/Camisetas/Lakers/Lakers 1.avif'],
+            Accesorios: ['../Static/Img/Accesorios/Gorra/Gorra 1.avif']
+        };
+        const normalizeImageSource = (src, category = 'Balones') => {
+            if (!src || !String(src).trim()) return fallbackBasketImage;
+            const value = String(src).trim();
+            if (/^https?:\/\//i.test(value) || value.startsWith('data:') || value.startsWith('../') || value.startsWith('/')) {
+                return value;
+            }
+            if (value.startsWith('imagenes/')) {
+                return `../Static/Img/${value.replace(/^imagenes\//, '')}`;
+            }
+            return categoryImages[category]?.[0] || fallbackBasketImage;
+        };
+
+        // Usa el catálogo maestro; la lista local permite que la página siga mostrando productos si no está disponible.
+        const products = window.realProducts || [
+            { id: 1, name: 'Balón Spalding TF-1000', category: 'Balones', price: 1850, discount: 10, desc: 'Balón oficial de competición con excelente grip.', images: ['imagenes/18106731_38486575_600.webp', 'imagenes/kobe-ad.avif', 'imagenes/images.jpg'], url: 'https://zaffarisport.com/products/balon-baloncesto-spalding-tf-1000-n-7' },
+            { id: 2, name: 'Zapatos Nike Kobe', category: 'Zapatos', price: 4790, discount: 20, desc: 'Soporte lateral perfecto para drive y salto.', images: ['imagenes/kobe-ad.avif', 'imagenes/18106731_38486575_600.webp', 'imagenes/images (1).jpg'], url: 'https://www.manelsanchez.com/nike-kobe-1-protro-bryant-legacy-101.html' },
+            { id: 3, name: 'Zapatos Adidas Harden', category: 'Zapatos', price: 5280, desc: 'Cushioning suave y retorno de energía para cancha.', images: ['imagenes/933186-800-auto.webp', 'imagenes/kobe-ad.avif', 'imagenes/images.jpg'] },
+            { id: 4, name: 'Camiseta Shooter Pro', category: 'Ropa', price: 1290, desc: 'Tejido liviano con secado rápido.', images: ['imagenes/basketball-shirt-herren-basicACTION1_320x400.webp', 'imagenes/images.jpg', 'imagenes/images (1).jpg'] },
+            { id: 5, name: 'Shorts Elite', category: 'Ropa', price: 980, discount: 20, desc: 'Ajuste ergonómico y costuras reforzadas.', images: ['imagenes/images.jpg', 'imagenes/kobe-ad.avif', 'imagenes/18106731_38486575_600.webp'], url: 'https://www.ebay.fr/itm/223321077630' },
+            { id: 6, name: 'Balón Nike Elite', category: 'Balones', price: 1720, discount: 15, desc: 'Textura duradera para entrenamiento y juego.', images: ['imagenes/D_NQ_NP_690287-MLU71951418162_092023-O.webp', 'imagenes/images.jpg', 'imagenes/images (1).jpg'] },
+            { id: 7, name: 'Balón Wilson Crossover', category: 'Balones', price: 1580, desc: 'Agarre superior y mantención de aire estable.', images: ['imagenes/Wilson-NCAA-Killer-Crossover-Basketball-Official-Size-29-5_17d6d29b-a45c-406a-ab3f-c43a3cd26912_1.17193b164ee0590e4cc5ac43eb5a4385.avif', 'imagenes/kobe-ad.avif', 'imagenes/images.jpg'] },
+            { id: 8, name: 'Calcetines compresión', category: 'Accesorios', price: 230, desc: 'Soporte para tobillos y mejor confort en cancha.', images: ['imagenes/D_Q_NP_789172-MLU78713520341_082024-O.webp', 'imagenes/images (1).jpg', 'imagenes/18106731_38486575_600.webp'] },
+            { id: 9, name: 'Muñequera Pro', category: 'Accesorios', price: 290, discount: 25, desc: 'Soporte y absorbe sudor en cada partido.', images: ['imagenes/D_NQ_NP_920150-MCO72623693895_112023-O.webp', 'imagenes/kobe-ad.avif', 'imagenes/images.jpg'], url: 'https://articulo.mercadolibre.com.co/MCO-3734945784-dw-munequera-deportiva-transpirable-para-gimnasio-y-basquet-_JM' },
+            { id: 10, name: 'Campera térmica', category: 'Ropa', price: 1750, desc: 'Protección en frío antes y después de entrenar.', images: ['imagenes/D_NQ_NP_634141-MLU70705659779_072023-O.webp', 'imagenes/images.jpg', 'imagenes/images (1).jpg'] },
+            { id: 11, name: 'Bolso de viaje', category: 'Accesorios', price: 1390, desc: 'Compartimentos para balones, llave y zapatos.', images: ['imagenes/images (1).jpg', 'imagenes/kobe-ad.avif', 'imagenes/18106731_38486575_600.webp'] },
+            { id: 12, name: 'Balón Street Basketball', category: 'Balones', price: 1120, desc: 'Resistente para asfalto y exteriores.', images: ['imagenes/D_NQ_NP_890945-MLM40158691200_122019-O.webp', 'imagenes/images.jpg', 'imagenes/images (1).jpg'] },
+            { id: 13, name: 'Zapatos Under Armour Curry', category: 'Zapatos', price: 4990, discount: 10, desc: 'Amortiguación avanzada para movimientos rápidos.', images: ['imagenes/kobe-ad.avif', 'imagenes/18106731_38486575_600.webp', 'imagenes/images.jpg'] },
+            { id: 14, name: 'Pantalones largos Pro', category: 'Ropa', price: 1450, desc: 'Material transpirable para entrenamientos intensos.', images: ['imagenes/images.jpg', 'imagenes/kobe-ad.avif', 'imagenes/images (1).jpg'] },
+            { id: 15, name: 'Balón Molten BG4500', category: 'Balones', price: 1950, desc: 'Balón oficial FIBA con grip excepcional.', images: ['imagenes/18106731_38486575_600.webp', 'imagenes/images.jpg', 'imagenes/images (1).jpg'] },
+            { id: 16, name: 'Gorra deportiva', category: 'Accesorios', price: 350, discount: 15, desc: 'Protección solar y estilo urbano.', images: ['imagenes/D_NQ_NP_920150-MCO72623693895_112023-O.webp', 'imagenes/kobe-ad.avif', 'imagenes/images (1).jpg'] },
+            { id: 17, name: 'Balón Adidas Pro', category: 'Balones', price: 1800, desc: 'Balón de alta calidad para profesionales.', images: ['imagenes/18106731_38486575_600.webp', 'imagenes/images.jpg', 'imagenes/images (1).jpg'] },
+            { id: 18, name: 'Zapatos Puma Clyde', category: 'Zapatos', price: 4500, discount: 5, desc: 'Estilo retro con tecnología moderna.', images: ['imagenes/kobe-ad.avif', 'imagenes/18106731_38486575_600.webp', 'imagenes/images (1).jpg'] },
+            { id: 19, name: 'Sudadera térmica', category: 'Ropa', price: 1600, desc: 'Calor y comodidad en climas fríos.', images: ['imagenes/D_NQ_NP_634141-MLU70705659779_072023-O.webp', 'imagenes/images.jpg', 'imagenes/kobe-ad.avif'] },
+            { id: 20, name: 'Cinta para cabello', category: 'Accesorios', price: 150, desc: 'Mantiene el cabello fuera de la cara.', images: ['imagenes/D_NQ_NP_920150-MCO72623693895_112023-O.webp', 'imagenes/images (1).jpg', 'imagenes/18106731_38486575_600.webp'] },
+            { id: 21, name: 'Balón Under Armour', category: 'Balones', price: 1650, desc: 'Durabilidad y precisión en cada tiro.', images: ['imagenes/D_NQ_NP_690287-MLU71951418162_092023-O.webp', 'imagenes/images.jpg', 'imagenes/kobe-ad.avif'] },
+            { id: 22, name: 'Zapatos Reebok Pump', category: 'Zapatos', price: 5200, desc: 'Sistema de ajuste personalizado.', images: ['imagenes/933186-800-auto.webp', 'imagenes/18106731_38486575_600.webp', 'imagenes/images (1).jpg'] },
+            { id: 23, name: 'Camiseta sin mangas', category: 'Ropa', price: 1100, discount: 10, desc: 'Libertad de movimiento total.', images: ['imagenes/basketball-shirt-herren-basicACTION1_320x400.webp', 'imagenes/images.jpg', 'imagenes/kobe-ad.avif'] },
+            { id: 24, name: 'Protector bucal', category: 'Accesorios', price: 200, desc: 'Protección dental durante el juego.', images: ['imagenes/D_Q_NP_789172-MLU78713520341_082024-O.webp', 'imagenes/images (1).jpg', 'imagenes/18106731_38486575_600.webp'] },
+            { id: 25, name: 'Balón Spalding NBA', category: 'Balones', price: 1900, desc: 'Balón oficial de la NBA.', images: ['imagenes/Wilson-NCAA-Killer-Crossover-Basketball-Official-Size-29-5_17d6d29b-a45c-406a-ab3f-c43a3cd26912_1.17193b164ee0590e4cc5ac43eb5a4385.avif', 'imagenes/kobe-ad.avif', 'imagenes/images.jpg'] },
+            { id: 26, name: 'Zapatos Converse All Star', category: 'Zapatos', price: 3500, desc: 'Clásicos para cancha y calle.', images: ['imagenes/kobe-ad.avif', 'imagenes/18106731_38486575_600.webp', 'imagenes/images (1).jpg'] },
+            { id: 27, name: 'Chaqueta impermeable', category: 'Ropa', price: 2000, desc: 'Resistente al agua para entrenamientos al aire libre.', images: ['imagenes/images.jpg', 'imagenes/kobe-ad.avif', 'imagenes/images (1).jpg'] },
+            { id: 28, name: 'Reloj deportivo', category: 'Accesorios', price: 800, discount: 20, desc: 'Monitorea tu rendimiento en tiempo real.', images: ['imagenes/images (1).jpg', 'imagenes/18106731_38486575_600.webp', 'imagenes/images.jpg'] },
+            { id: 29, name: 'Balón juvenil', category: 'Balones', price: 950, desc: 'Tamaño reducido para niños.', images: ['imagenes/D_NQ_NP_890945-MLM40158691200_122019-O.webp', 'imagenes/kobe-ad.avif', 'imagenes/images (1).jpg'] },
+            { id: 30, name: 'Bandas elásticas', category: 'Accesorios', price: 300, desc: 'Para ejercicios de resistencia.', images: ['imagenes/D_NQ_NP_920150-MCO72623693895_112023-O.webp', 'imagenes/images.jpg', 'imagenes/18106731_38486575_600.webp'] },
+            { id: 31, name: 'Balón de entrenamiento', category: 'Balones', price: 1400, desc: 'Ideal para prácticas y drills.', images: ['imagenes/D_NQ_NP_690287-MLU71951418162_092023-O.webp', 'imagenes/kobe-ad.avif', 'imagenes/images.jpg'] },
+            { id: 32, name: 'Guantes de gimnasio', category: 'Accesorios', price: 400, desc: 'Mejor agarre y protección para manos.', images: ['imagenes/D_Q_NP_789172-MLU78713520341_082024-O.webp', 'imagenes/images (1).jpg', 'imagenes/18106731_38486575_600.webp'] }
+        ];
+
+        // Normaliza las rutas antes de generar HTML, admitiendo productos con varias imágenes o una sola.
+        products.forEach((product) => {
+            if (Array.isArray(product.images)) {
+                product.images = product.images.map((image) => normalizeImageSource(image, product.category));
+            }
+            if (product.image) {
+                product.image = normalizeImageSource(product.image, product.category);
+            }
+        });
+
+        function getEffectivePrice(product) {
+            if (!product) return 0;
+            if (product.discount && product.discount > 0) {
+                return Math.floor(product.price * (1 - product.discount / 100));
+            }
+            return product.price;
+        }
+
+        // Guarda referencias al DOM y recupera la cesta para mantenerla al navegar entre páginas.
+        const productsContainer = document.getElementById('products');
+        const cartCountEl = document.getElementById('cartCount');
+        let cart = JSON.parse(localStorage.getItem('cartBasket')) || [];
+
+        // Las tarifas convierten los precios base en COP a la moneda seleccionada por la persona.
+        const currencyRates = { COP: 1, USD: 0.00024, MXN: 0.00435, PEN: 0.00091, EUR: 0.00022 };
+        const currencySelector = document.getElementById('currencySelector');
+        let selectedCurrency = localStorage.getItem('basketCurrency') || 'COP';
+
+        function formatCurrency(amount) {
+            // Intl.NumberFormat aplica el símbolo y la precisión adecuados para la moneda actual.
+            const rate = currencyRates[selectedCurrency] || 1;
+            const value = amount * rate;
+            const formatter = new Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: selectedCurrency,
+                maximumFractionDigits: selectedCurrency === 'COP' ? 0 : 2
+            });
+            return formatter.format(value);
+        }
+
+        function applySelectedCurrency() {
+            // Actualiza importes existentes y sincroniza el selector con el valor guardado.
+            if (!currencySelector) return;
+            currencySelector.value = selectedCurrency;
+            const prices = document.querySelectorAll('[data-price-usd]');
+            prices.forEach(el => {
+                const amount = Number(el.dataset.priceUsd || 0);
+                el.textContent = formatCurrency(amount);
+            });
+        }
+
+        if (currencySelector) {
+            // Al cambiar de moneda persiste la elección y vuelve a dibujar las vistas dependientes de precios.
+            currencySelector.addEventListener('change', (event) => {
+                selectedCurrency = event.target.value;
+                localStorage.setItem('basketCurrency', selectedCurrency);
+                applySelectedCurrency();
+                renderProducts();
+                renderOffers();
+                renderCart && renderCart();
+            });
+        }
+
+        const categoryFilter = document.getElementById('categoryFilter');
+        const searchBox = document.getElementById('searchBox');
+
+        // Devuelve los productos que coinciden a la vez con categoría y texto de búsqueda.
+        function getFilteredProducts() {
+            const category = categoryFilter.value;
+            const search = searchBox.value.trim().toLowerCase();
+            return products.filter((p) => {
+                const matchCategory = category === 'all' || p.category === category;
+                const matchSearch = !search || p.name.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search);
+                return matchCategory && matchSearch;
+            });
+        }
+
+        function getEffectivePrice(product) {
+            if (!product) return 0;
+            if (product.discount && product.discount > 0) {
+                return Math.round(product.price * (1 - product.discount / 100));
+            }
+            return product.price;
+        }
+
+        // Convierte el resultado de los filtros en tarjetas con precio, descuento y enlaces de acción.
+        function renderProducts() {
+            const filtered = getFilteredProducts();
+            if (!filtered.length) {
+                productsContainer.innerHTML = '<p class="muted">No se encontraron productos con ese filtro.</p>';
+                return;
+            }
+            productsContainer.innerHTML = filtered.map(p => {
+                const price = getEffectivePrice(p);
+                const hasDiscount = p.discount && p.discount > 0;
+                const priceHtml = hasDiscount
+                    ? `<strong><span class="old-price" data-price-usd="${p.price}">${formatCurrency(p.price)}</span> <span data-price-usd="${price}">${formatCurrency(price)}</span></strong>`
+                    : `<strong><span data-price-usd="${price}">${formatCurrency(price)}</span></strong>`;
+                const discountBadge = hasDiscount ? `<span class="badge-discount">-${p.discount}%</span>` : '';
+
+                return `
+                <article class="card">
+                    ${imageTag(p.images?.[0], p.name, { loading: 'lazy' })}
+                    <div class="card-body">
+                        <div class="card-top">
+                            <p class="tag">${p.category}</p>
+                            <h3>${p.name} ${discountBadge}</h3>
+                        </div>
+                        <p>${p.desc}</p>
+                        <div class="card-footer">
+                            ${priceHtml}
+                            <div class="card-actions-footer">
+                                <button class="btn btn-primary" onclick="addToCart(${p.id})">Agregar</button>
+                                <a class="btn btn-link" href="product-detail.html?id=${p.id}">Ver detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+            }).join('');
+        }
+
+        // Muestra hasta seis productos rebajados como accesos rápidos al detalle.
+        function renderOffers() {
+            const offers = products.filter(p => p.discount && p.discount > 0).slice(0, 6);
+            const offersEl = document.getElementById('offers');
+            offersEl.innerHTML = offers.map(p => {
+                const price = getEffectivePrice(p);
+                return `<a href="product-detail.html?id=${p.id}" style="text-decoration: none; color: inherit;"><article class="offer-card"><h3>${p.name}</h3><p class="offer-price" data-price-usd="${price}">${formatCurrency(price)}</p></article></a>`;
+            }).join('');
+        }
+
+        // Los cambios en controles vuelven a renderizar el catálogo sin recargar la página.
+        categoryFilter.addEventListener('change', renderProducts);
+        searchBox.addEventListener('input', renderProducts);
+
+        function saveCart() {
+            // Serializa la cesta para compartirla con la página de carrito.
+            localStorage.setItem('cartBasket', JSON.stringify(cart));
+        }
+
+        function updateCartBadge() {
+            // El indicador muestra unidades totales, no la cantidad de tipos de producto.
+            if (!cartCountEl) return;
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCountEl.textContent = totalItems > 0 ? totalItems : '';
+        }
+
+        function addToCart(id) {
+            // Si el producto ya está en la cesta incrementa su cantidad; de lo contrario crea una línea nueva.
+            const item = products.find(p => p.id === id);
+            if (!item) return;
+            const effectivePrice = getEffectivePrice(item);
+            const existing = cart.find(c => c.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...item, price: effectivePrice, qty: 1 });
+            }
+            saveCart();
+            updateCartBadge();
+        }
+
+        const backgroundSlides = [
+            '../Static/Imagenes de fondo/Anthony Edwards 1.jpg',
+            '../Static/Imagenes de fondo/Damian Lillard 1.jpg',
+            '../Static/Imagenes de fondo/Devin Booker 1.jpg',
+            '../Static/Imagenes de fondo/Giannis Antetokounmpo 1.jpg',
+            '../Static/Imagenes de fondo/Ja Morant 1.jpg',
+            '../Static/Imagenes de fondo/James Harden 1.jpg',
+            '../Static/Imagenes de fondo/Jayson Tatum 1.jpg',
+            '../Static/Imagenes de fondo/Jimmy Butler 1.jpg',
+            '../Static/Imagenes de fondo/Joel Embiid 1.jpg',
+            '../Static/Imagenes de fondo/Kawhi Leonard 1.jpg',
+            '../Static/Imagenes de fondo/Kevin Durant 1.jpg',
+            '../Static/Imagenes de fondo/Kobe Bryant 1.jpg',
+            '../Static/Imagenes de fondo/Kyrie Irving 1.jpg',
+            '../Static/Imagenes de fondo/LeBron James 1.jpg',
+            '../Static/Imagenes de fondo/Luka Dončić 1.jpg',
+            '../Static/Imagenes de fondo/Michael Jordan 1.jpg',
+            '../Static/Imagenes de fondo/Nikola Jokić 1.jpg',
+            '../Static/Imagenes de fondo/Russell Westbrook 1.jpg',
+            '../Static/Imagenes de fondo/Steph Curry 1.jpg',
+            '../Static/Imagenes de fondo/Victor Wembanyama 1.jpg'
+        ];
+
+        const productSlides = [
+            { src: '../Static/imagenes Minicarrusel/Baloncesto 1.jpg', alt: 'Baloncesto' },
+            { src: '../Static/imagenes Minicarrusel/Baloncesto 2.jpg', alt: 'Baloncesto' },
+            { src: '../Static/imagenes Minicarrusel/Baloncesto 3.jpg', alt: 'Baloncesto' }
+        ];
+
+        const heroImage = document.getElementById('heroImage');
+        const bgCarousel = document.getElementById('bgCarousel');
+        const prevSlideBtn = document.getElementById('prevSlide');
+        const nextSlideBtn = document.getElementById('nextSlide');
+        let backgroundSlideIndex = 0;
+        let productSlideIndex = 0;
+        let backgroundTimer;
+        let productTimer;
+
+        function showBackgroundSlide(index) {
+            backgroundSlideIndex = (index + backgroundSlides.length) % backgroundSlides.length;
+            bgCarousel.style.backgroundImage = `url('${backgroundSlides[backgroundSlideIndex]}')`;
+        }
+
+        function showProductSlide(index) {
+            productSlideIndex = (index + productSlides.length) % productSlides.length;
+            const productSlide = productSlides[productSlideIndex];
+            heroImage.src = productSlide.src || fallbackBasketImage;
+            heroImage.alt = productSlide.alt;
+            heroImage.onerror = () => { heroImage.src = fallbackBasketImage; };
+        }
+
+        function startBackgroundCarousel() {
+            stopBackgroundCarousel();
+            backgroundTimer = setInterval(() => showBackgroundSlide(backgroundSlideIndex + 1), 5000);
+        }
+
+        function stopBackgroundCarousel() {
+            if (backgroundTimer) {
+                clearInterval(backgroundTimer);
+                backgroundTimer = null;
+            }
+        }
+
+        function startProductCarousel() {
+            stopProductCarousel();
+            productTimer = setInterval(() => showProductSlide(productSlideIndex + 1), 4000);
+        }
+
+        function stopProductCarousel() {
+            if (productTimer) {
+                clearInterval(productTimer);
+                productTimer = null;
+            }
+        }
+
+        prevSlideBtn.addEventListener('click', () => {
+            showProductSlide(productSlideIndex - 1);
+            startProductCarousel();
+        });
+
+        nextSlideBtn.addEventListener('click', () => {
+            showProductSlide(productSlideIndex + 1);
+            startProductCarousel();
+        });
+
+        // Al terminar la carga, dibuja catálogo y ofertas y pone en marcha los dos carruseles.
+        window.addEventListener('load', () => {
+            updateCartBadge();
+            renderProducts();
+            renderOffers();
+            showBackgroundSlide(0);
+            showProductSlide(0);
+            startBackgroundCarousel();
+            startProductCarousel();
+        });
+    </script>
+    <script src="../Static/Js/sesion.js"></script>
+</body>
+</html>

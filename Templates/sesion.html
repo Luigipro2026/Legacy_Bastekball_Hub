@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Metadatos básicos para codificación, adaptación móvil y título de la pestaña. -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi cuenta - Legacy Basketball Hub</title>
+    <link rel="stylesheet" href="../Static/Css/Estilos.css" />
+</head>
+<body class="account-page">
+    <!-- Panel dividido entre imagen de marca y controles para administrar la cuenta. -->
+    <main class="account-shell">
+        <section class="account-visual" aria-label="Legacy Basketball Hub">
+            <img src="../Static/Img/Inicio de sesion 2.webp" alt="Jugador de baloncesto en la cancha" />
+            <div class="account-visual-copy">
+                <span class="account-kicker">LEGACY BASKETBALL HUB</span>
+                <h2>Tu juego.<br />Tu cuenta.</h2>
+                <p>Entra a la cancha con todo listo.</p>
+            </div>
+        </section>
+
+        <section class="account-content">
+            <!-- Enlaces de marca y retorno a la tienda desde cualquier estado de cuenta. -->
+            <header class="account-header">
+                <a class="account-wordmark" href="Baloncesto tienda.html">LEGACY<span>BH</span></a>
+                <a class="account-back" href="Baloncesto tienda.html">Volver a la tienda</a>
+            </header>
+
+            <div class="account-workspace">
+                <!-- Esta vista sustituye los formularios cuando sesion.js detecta un usuario autenticado. -->
+                <section id="activeAccount" class="account-active" hidden>
+                    <p class="account-eyebrow">SESIÓN ACTIVA</p>
+                    <h1>Qué bueno verte, <span id="activeName">jugador</span></h1>
+                    <p id="activeEmail" class="account-active-email"></p>
+                    <a id="continueLink" class="account-submit account-continue" href="Baloncesto tienda.html">Continuar donde estaba</a>
+                    <button id="logoutButton" class="account-logout" type="button">Cerrar sesión</button>
+                </section>
+
+                <!-- Formularios y pestañas que sesion.js alterna entre iniciar sesión y registrarse. -->
+                <section id="accountForms">
+                    <p class="account-eyebrow">MI CUENTA</p>
+                    <h1 id="accountTitle">Bienvenido de vuelta</h1>
+                    <p id="accountSubtitle" class="account-subtitle">Inicia sesión para continuar con tu compra.</p>
+
+                    <!-- data-auth-mode identifica el modo que activa cada botón en sesion.js. -->
+                    <div class="account-tabs" role="tablist" aria-label="Acceso a la cuenta">
+                        <button class="account-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="loginForm" data-auth-mode="login">Iniciar sesión</button>
+                        <button class="account-tab" type="button" role="tab" aria-selected="false" aria-controls="registerForm" data-auth-mode="register">Crear cuenta</button>
+                    </div>
+
+                    <!-- Correo y contraseña se comparan con la cuenta almacenada en este navegador. -->
+                    <form id="loginForm" class="account-form">
+                        <label class="account-field">
+                            <span>Correo electrónico</span>
+                            <input id="loginEmail" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required />
+                        </label>
+                        <label class="account-field">
+                            <span>Contraseña</span>
+                            <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Tu contraseña" required />
+                        </label>
+                        <button class="account-submit" type="submit">Entrar a mi cuenta</button>
+                    </form>
+
+                    <!-- Registro solicita nombre, correo y confirmación antes de crear una cuenta. -->
+                    <form id="registerForm" class="account-form" hidden>
+                        <label class="account-field">
+                            <span>Nombre</span>
+                            <input id="registerName" name="name" type="text" autocomplete="name" placeholder="Tu nombre" maxlength="60" required />
+                        </label>
+                        <label class="account-field">
+                            <span>Correo electrónico</span>
+                            <input id="registerEmail" name="email" type="email" autocomplete="email" placeholder="tu@correo.com" required />
+                        </label>
+                        <label class="account-field">
+                            <span>Contraseña</span>
+                            <input id="registerPassword" name="password" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" minlength="8" required />
+                        </label>
+                        <label class="account-field">
+                            <span>Confirma tu contraseña</span>
+                            <input id="registerPasswordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" placeholder="Repite la contraseña" minlength="8" required />
+                        </label>
+                        <button class="account-submit" type="submit">Crear mi cuenta</button>
+                    </form>
+
+                    <!-- Región accesible donde JavaScript anuncia errores y confirmaciones del formulario. -->
+                    <p id="accountMessage" class="account-message" role="status" aria-live="polite" hidden></p>
+                </section>
+            </div>
+            <p class="account-footnote">Tu cuenta se guarda en este navegador.</p>
+        </section>
+    </main>
+    <!-- Conecta la interfaz con el registro, el inicio/cierre de sesión y la persistencia local. -->
+    <script src="../Static/Js/sesion.js"></script>
+</body>
+</html>

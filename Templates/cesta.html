@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cesta - Legacy Basketball Hub</title>
+    <!-- Estilos visuales compartidos. -->
+    <link rel="stylesheet" href="../Static/Css/Estilos.css" />
+</head>
+<body>
+    <div id="bgCarousel" class="bg-carousel" aria-hidden="true"></div>
+    <div class="container">
+        <header class="hero">
+            <!-- Identidad, navegacion y acceso a la sesion. -->
+            <nav class="top-nav">
+                <div class="brand">
+                    <div class="logo"><img src="../Static/Img/logo.jpg" alt="Legacy Basketball Hub logo" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80';" /></div>
+                    <div>
+                        <h1>Legacy Basketball Hub</h1>
+                        <small>Cesta</small>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="Baloncesto tienda.html" title="Inicio">Inicio🏠</a></li>
+                    <li><a href="productos.html" title="Productos">Productos🏀</a></li>
+                    <li><a href="ofertas.html" title="Ofertas">Ofertas🏷️</a></li>
+                    <li><a href="conoce.html" title="Conoce">Conoce📘</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="nav-session-actions">
+                        <div class="nav-session-buttons">
+                            <a class="nav-cart" href="cesta.html" title="Cesta">
+                                🧺
+                                <span id="cartCount" class="cart-badge" aria-label="Productos en la cesta"></span>
+                            </a>
+                            <a id="loginBtn" class="btn btn-outline login-icon-button" href="sesion.html" aria-label="Iniciar sesión o registrarse" title="Iniciar sesión o registrarse">
+                                <img src="../Static/Img/Inicio de sesion.png" alt="" />
+                            </a>
+                        </div>
+                        <select id="currencySelector" class="currency-selector" aria-label="Seleccionar moneda">
+                            <option value="USD">USD</option>
+                            <option value="MXN">MXN</option>
+                            <option value="COP">COP</option>
+                            <option value="PEN">PEN</option>
+                            <option value="EUR">EUR</option>
+                        </select>
+                    </div>
+                </div>
+            </nav>
+
+        </header>
+
+        <main>
+            <!-- Zona dinámica para artículos, resumen, sesión y selección del medio de pago. -->
+            <section id="cesta">
+                <h2>Cesta de compra</h2>
+                <div id="cart" class="cart">
+                    <p id="cartEmpty">Tu cesta está vacía.</p>
+                    <div class="cart-container">
+                        <div id="cartItems" class="cart-items">
+                            <!-- JavaScript reemplaza este contenedor por las filas actuales del carrito. -->
+                        </div>
+                        <div class="cart-summary">
+                            <div id="summaryImages" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; margin-bottom: 10px;"></div>
+                            <p><strong>Total: $<span id="cartTotal">0</span></strong></p>
+                        </div>
+                    </div>
+                    <div class="cart-footer">
+                        <div>
+                            <p id="sessionInfo" class="muted">No has iniciado sesión.</p>
+                        </div>
+                        <div>
+                            <select id="paymentMethod" class="input-filter">
+                                <option value="">Selecciona método de pago</option>
+                                <option value="credit">Tarjeta de crédito</option>
+                                <option value="debit">Tarjeta de débito</option>
+                                <option value="cash">Efectivo</option>
+                            </select>
+                            <button id="checkoutBtn" class="btn btn-primary" disabled>Finalizar compra</button>
+                        </div>
+                    </div>
+                    <p id="paymentError" class="muted" style="display:none; color:#ffadad;">Debes iniciar sesión y seleccionar método de pago.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Esta página lee el estado compartido del navegador y controla la edición y confirmación de la cesta. -->
+    <script>
+        // Fondos que se alternan para conservar la identidad visual compartida con las otras páginas.
+        const backgroundSlides = [
+            '../Static/Imagenes de fondo/Anthony Edwards 1.jpg', '../Static/Imagenes de fondo/Damian Lillard 1.jpg',
+            '../Static/Imagenes de fondo/Devin Booker 1.jpg', '../Static/Imagenes de fondo/Giannis Antetokounmpo 1.jpg',
+            '../Static/Imagenes de fondo/Ja Morant 1.jpg', '../Static/Imagenes de fondo/James Harden 1.jpg',
+            '../Static/Imagenes de fondo/Jayson Tatum 1.jpg', '../Static/Imagenes de fondo/Jimmy Butler 1.jpg',
+            '../Static/Imagenes de fondo/Joel Embiid 1.jpg', '../Static/Imagenes de fondo/Kawhi Leonard 1.jpg',
+            '../Static/Imagenes de fondo/Kevin Durant 1.jpg', '../Static/Imagenes de fondo/Kobe Bryant 1.jpg',
+            '../Static/Imagenes de fondo/Kyrie Irving 1.jpg', '../Static/Imagenes de fondo/LeBron James 1.jpg',
+            '../Static/Imagenes de fondo/Luka Dončić 1.jpg', '../Static/Imagenes de fondo/Michael Jordan 1.jpg',
+            '../Static/Imagenes de fondo/Nikola Jokić 1.jpg', '../Static/Imagenes de fondo/Russell Westbrook 1.jpg',
+            '../Static/Imagenes de fondo/Steph Curry 1.jpg', '../Static/Imagenes de fondo/Victor Wembanyama 1.jpg'
+        ];
+
+        const bgCarousel = document.getElementById('bgCarousel');
+        let bgIndex = 0;
+
+        // Cambia el fondo actual y prepara el índice de la siguiente imagen.
+        function renderBackgroundSlide() {
+            if (!bgCarousel) return;
+            bgCarousel.style.backgroundImage = `url('${backgroundSlides[bgIndex]}')`;
+            bgIndex = (bgIndex + 1) % backgroundSlides.length;
+        }
+
+        renderBackgroundSlide();
+        setInterval(renderBackgroundSlide, 3500);
+
+        // Referencias a las áreas dinámicas y preferencias que afectan la visualización de la compra.
+        const cartItemsEl = document.getElementById('cartItems');
+        const cartTotalEl = document.getElementById('cartTotal');
+        const cartEmptyEl = document.getElementById('cartEmpty');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const paymentMethod = document.getElementById('paymentMethod');
+        const paymentError = document.getElementById('paymentError');
+        const sessionInfo = document.getElementById('sessionInfo');
+        const cartCountEl = document.getElementById('cartCount');
+        const currencySelector = document.getElementById('currencySelector');
+        // La cesta conserva precios base en COP; estas tasas solo cambian cómo se muestran.
+        const currencyRates = { COP: 1, USD: 0.00024, MXN: 0.00435, PEN: 0.00091, EUR: 0.00022 };
+        let selectedCurrency = localStorage.getItem('basketCurrency') || 'COP';
+
+        function formatCurrency(amount) {
+            // Convierte y presenta el importe según la moneda persistida en el navegador.
+            const rate = currencyRates[selectedCurrency] || 1;
+            const value = amount * rate;
+            const formatter = new Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: selectedCurrency,
+                maximumFractionDigits: selectedCurrency === 'COP' ? 0 : 2
+            });
+            return formatter.format(value);
+        }
+        const categoryImages = {
+            Balones: '../Static/Img/Balones/BALON BASKETBALL CLASICO NO. 3 ZOOM Z6004/BALON BASKETBALL CLASICO NO. 3 ZOOM Z6004 1.webp',
+            Zapatos: '../Static/Img/Zapatos/Adidas Harden Vol 9/Adidas Harden Vol 9 1.webp',
+            Ropa: '../Static/Img/Camisetas/Lakers/Lakers 1.avif',
+            Accesorios: '../Static/Img/Accesorios/Gorra/Gorra 1.avif'
+        };
+        const normalizeImageSource = (src, category = 'Balones') => {
+            if (!src || !String(src).trim()) return categoryImages[category] || fallbackBasketImage;
+            const value = String(src).trim();
+            if (/^https?:\/\//i.test(value) || value.startsWith('data:') || value.startsWith('../') || value.startsWith('/')) {
+                return value;
+            }
+            if (value.startsWith('imagenes/')) {
+                return `../Static/Img/${value.replace(/^imagenes\//, '')}`;
+            }
+            return categoryImages[category] || fallbackBasketImage;
+        };
+        const fallbackBasketImage = 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=900&q=80';
+        // Recupera la cesta y añade una imagen representativa si una entrada antigua no tiene fotos.
+        const storedCart = JSON.parse(localStorage.getItem('cartBasket')) || [];
+        let cart = storedCart.map((item) => ({
+            ...item,
+            images: Array.isArray(item.images) && item.images.length
+                ? item.images.map((image) => normalizeImageSource(image, item.category))
+                : [normalizeImageSource(categoryImages[item.category], item.category) || fallbackBasketImage]
+        }));
+        let user = JSON.parse(localStorage.getItem('basketUser')) || null;
+
+        function saveCart() {
+            // Guarda cada cambio para que la cesta sobreviva al cierre o cambio de página.
+            localStorage.setItem('cartBasket', JSON.stringify(cart));
+        }
+
+        function updateCartBadge() {
+            // Mantiene sincronizado el contador de la barra de navegación con las cantidades actuales.
+            if (!cartCountEl) return;
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCountEl.textContent = totalItems > 0 ? totalItems : '';
+        }
+
+        // Actualiza el listado, el total, las miniaturas y la disponibilidad del botón de compra.
+        function renderCart() {
+            if (cart.length === 0) {
+            // La cesta vacía limpia contenido y deshabilita la compra para evitar un pedido sin artículos.
+                cartEmptyEl.style.display = 'block';
+                cartItemsEl.innerHTML = '';
+                checkoutBtn.disabled = true;
+                cartTotalEl.textContent = '0';
+                updateCartBadge();
+                const summaryImagesEl = document.getElementById('summaryImages');
+                summaryImagesEl.innerHTML = '';
+                return;
+            }
+
+            // Construye una fila editable por producto y luego calcula el total de todas las unidades.
+            cartEmptyEl.style.display = 'none';
+            cartItemsEl.innerHTML = cart.map((item, index) => `
+                <div class="cart-item" style="display: flex; align-items: center; margin-bottom: 10px; padding: 10px; border: 1px solid #333;">
+                    <img src="${item.images[0]}" alt="${item.name}" style="width: 50px; height: 50px; margin-right: 10px;" />
+                    <div style="flex-grow: 1;">
+                        <p><strong>${item.name}</strong></p>
+                        <p>Precio: ${formatCurrency(item.price)}</p>
+                    </div>
+                    <div style="display: flex; align-items: center;">
+                        <label>Cantidad:</label>
+                        <input type="number" value="${item.qty}" min="1" onchange="updateQtyInput(${item.id}, this.value)" style="width: 60px; margin-left: 5px;" />
+                        <button class="remove-btn" onclick="removeFromCart(${item.id})" style="margin-left: 10px;">Eliminar</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const total = cart.reduce((sum, item) => sum + item.qty * item.price, 0);
+            cartTotalEl.textContent = formatCurrency(total).replace(/[^0-9,.-]/g, '').trim();
+            checkoutBtn.disabled = false;
+            updateCartBadge();
+
+            const summaryImagesEl = document.getElementById('summaryImages');
+            summaryImagesEl.innerHTML = cart.map(item => `<img src="${item.images[0]}" alt="${item.name}" style="width: 50px; height: 50px;" />`).join('');
+        }
+
+        // Elimina una línea completa del carrito, guarda el nuevo estado y vuelve a dibujar la vista.
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            saveCart();
+            renderCart();
+        }
+
+        function updateQty(id, delta) {
+            // Ajusta una cantidad con botones; al llegar a cero elimina el producto.
+            const item = cart.find(c => c.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty <= 0) {
+                removeFromCart(id);
+                return;
+            }
+            saveCart();
+            renderCart();
+        }
+
+        function updateQtyInput(id, newQty) {
+            // Valida la cantidad escrita directamente y elimina la fila si el valor no es positivo.
+            const item = cart.find(c => c.id === id);
+            if (!item) return;
+            const qty = parseInt(newQty);
+            if (qty <= 0) {
+                removeFromCart(id);
+                return;
+            }
+            item.qty = qty;
+            saveCart();
+            renderCart();
+        }
+
+        function updateSessionUI() {
+            // Informa si hay una sesión activa para que la persona sepa si puede finalizar la compra.
+            if (user) {
+                sessionInfo.textContent = `Sesión iniciada: ${user.email}`;
+            } else {
+                sessionInfo.textContent = 'No has iniciado sesión.';
+            }
+        }
+
+        // Valida sesión y medio de pago antes de confirmar; una compra exitosa vacía la cesta.
+        checkoutBtn.addEventListener('click', () => {
+            const total = cart.reduce((sum, item) => sum + item.qty * item.price, 0);
+            if (!user) {
+                paymentError.textContent = 'Debes iniciar sesión antes de pagar.';
+                paymentError.style.display = 'block';
+                return;
+            }
+            if (!paymentMethod.value) {
+                paymentError.textContent = 'Selecciona un método de pago.';
+                paymentError.style.display = 'block';
+                return;
+            }
+            paymentError.style.display = 'none';
+            alert(`Compra realizada con éxito. Total: $${total.toLocaleString('es-ES')}. Método: ${paymentMethod.options[paymentMethod.selectedIndex].text}`);
+            cart = [];
+            saveCart();
+            renderCart();
+        });
+
+        // Al cargar, muestra el usuario guardado y sincroniza todos los datos visibles de la cesta.
+        window.addEventListener('load', () => {
+            updateSessionUI();
+            renderCart();
+        });
+    </script>
+    <script src="../Static/Js/sesion.js"></script>
+</body>
+</html>

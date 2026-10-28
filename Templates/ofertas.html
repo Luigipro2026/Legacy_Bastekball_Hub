@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ofertas - Legacy Basketball Hub</title>
+    <!-- Estilos visuales compartidos. -->
+    <link rel="stylesheet" href="../Static/Css/Estilos.css" />
+</head>
+<body>
+    <div id="bgCarousel" class="bg-carousel" aria-hidden="true"></div>
+    <div class="container">
+        <header class="hero">
+            <!-- Identidad y enlaces comunes del sitio. -->
+            <nav class="top-nav">
+                <div class="brand">
+                    <div class="logo"><img src="../Static/Img/logo.jpg" alt="Legacy Basketball Hub logo" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80';" /></div>
+                    <div>
+                        <h1>Legacy Basketball Hub</h1>
+                        <small>Ofertas</small>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="Baloncesto tienda.html" title="Inicio">Inicio🏠</a></li>
+                    <li><a href="productos.html" title="Productos">Productos🏀</a></li>
+                    <li><a href="ofertas.html" title="Ofertas">Ofertas🏷️</a></li>
+                    <li><a href="conoce.html" title="Conoce">Conoce📘</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <div class="nav-session-actions">
+                        <div class="nav-session-buttons">
+                            <a class="nav-cart" href="cesta.html" title="Cesta">
+                                🧺
+                                <span id="cartCount" class="cart-badge" aria-label="Productos en la cesta"></span>
+                            </a>
+                            <a id="loginBtn" class="btn btn-outline login-icon-button" href="sesion.html" aria-label="Iniciar sesión o registrarse" title="Iniciar sesión o registrarse">
+                                <img src="../Static/Img/Inicio de sesion.png" alt="" />
+                            </a>
+                        </div>
+                        <select id="currencySelector" class="currency-selector" aria-label="Seleccionar moneda">
+                            <option value="USD">USD</option>
+                            <option value="MXN">MXN</option>
+                            <option value="COP">COP</option>
+                            <option value="PEN">PEN</option>
+                            <option value="EUR">EUR</option>
+                        </select>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Controles para limitar las ofertas por categoría y por coincidencia de texto. -->
+            <section class="filters" id="productos">
+                <div class="filters-left">
+                    <h2>Ofertas disponibles</h2>
+                    <p class="muted">Solo verás productos con descuento.</p>
+                </div>
+                <div class="filters-options">
+                    <select id="categoryFilter" class="input-filter">
+                        <option value="all">Todas las categorías</option>
+                        <option value="Balones">Balones</option>
+                        <option value="Zapatos">Zapatos</option>
+                        <option value="Camisetas">Camisetas</option>
+                        <option value="Accesorios">Accesorios</option>
+                    </select>
+                    <input id="searchBox" class="input-filter" type="text" placeholder="Buscar oferta..." />
+                </div>
+            </section>
+
+            <section>
+                <!-- JavaScript inserta aquí únicamente los productos que tienen descuento. -->
+                <div id="products" class="grid"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Carga el catálogo común antes de aplicar la lógica de esta página de ofertas. -->
+    <script src="../Static/Js/productos.js"></script>
+    <script>
+        // Imagen de respaldo para los productos que no tengan una foto local disponible.
+        const fallbackBasketImage = 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=900&q=80';
+        // Imagen local representativa por categoría para normalizar productos de respaldo.
+        const categoryImages = {
+            Balones: ['../Static/Img/Balones/BALON BASKETBALL CLASICO NO. 3 ZOOM Z6004/BALON BASKETBALL CLASICO NO. 3 ZOOM Z6004 1.webp'],
+            Zapatos: ['../Static/Img/Zapatos/Adidas Harden Vol 9/Adidas Harden Vol 9 1.webp'],
+            Ropa: ['../Static/Img/Camisetas/Lakers/Lakers 1.avif'],
+            Accesorios: ['../Static/Img/Accesorios/Gorra/Gorra 1.avif']
+        };
+        const normalizeImageSource = (src, category = 'Balones') => {
+            if (!src || !String(src).trim()) return fallbackBasketImage;
+            const value = String(src).trim();
+            if (/^https?:\/\//i.test(value) || value.startsWith('data:') || value.startsWith('../') || value.startsWith('/')) {
+                return value;
+            }
+            if (value.startsWith('imagenes/')) {
+                return `../Static/Img/${value.replace(/^imagenes\//, '')}`;
+            }
+            return categoryImages[category]?.[0] || fallbackBasketImage;
+        };
+        // Crea una imagen segura para la tarjeta e incluye carga diferida y una alternativa al fallar.
+        function safeImage(src, alt, options = {}) {
+            const safeSrc = normalizeImageSource(src);
+            const attrs = options.loading ? `loading="${options.loading}"` : '';
+            return `<img src="${safeSrc}" alt="${alt}" ${attrs} onerror="this.onerror=null;this.src='${fallbackBasketImage}';" />`;
+        }
+
+        // Fondos del carrusel; el índice circular recorre la lista continuamente.
+        const backgroundSlides = [
+            '../Static/Imagenes de fondo/Anthony Edwards 1.jpg', '../Static/Imagenes de fondo/Damian Lillard 1.jpg',
+            '../Static/Imagenes de fondo/Devin Booker 1.jpg', '../Static/Imagenes de fondo/Giannis Antetokounmpo 1.jpg',
+            '../Static/Imagenes de fondo/Ja Morant 1.jpg', '../Static/Imagenes de fondo/James Harden 1.jpg',
+            '../Static/Imagenes de fondo/Jayson Tatum 1.jpg', '../Static/Imagenes de fondo/Jimmy Butler 1.jpg',
+            '../Static/Imagenes de fondo/Joel Embiid 1.jpg', '../Static/Imagenes de fondo/Kawhi Leonard 1.jpg',
+            '../Static/Imagenes de fondo/Kevin Durant 1.jpg', '../Static/Imagenes de fondo/Kobe Bryant 1.jpg',
+            '../Static/Imagenes de fondo/Kyrie Irving 1.jpg', '../Static/Imagenes de fondo/LeBron James 1.jpg',
+            '../Static/Imagenes de fondo/Luka%20Don%C4%8Di%C4%87%201.jpg', '../Static/Imagenes de fondo/Michael Jordan 1.jpg',
+            '../Static/Imagenes de fondo/Nikola%20Joki%C4%87%201.jpg', '../Static/Imagenes de fondo/Russell Westbrook 1.jpg',
+            '../Static/Imagenes de fondo/Steph Curry 1.jpg', '../Static/Imagenes de fondo/Victor Wembanyama 1.jpg'
+        ];
+
+        const bgCarousel = document.getElementById('bgCarousel');
+        let bgIndex = 0;
+
+        // Cambia el fondo visible y deja listo el índice del siguiente fondo.
+        function renderBackgroundSlide() {
+            if (!bgCarousel) return;
+            bgCarousel.style.backgroundImage = `url('${backgroundSlides[bgIndex]}')`;
+            bgIndex = (bgIndex + 1) % backgroundSlides.length;
+        }
+
+        renderBackgroundSlide();
+        setInterval(renderBackgroundSlide, 3500);
+
+        // Usa el catálogo compartido y conserva una lista local como respaldo si no está cargado.
+        const products = window.realProducts || [
+            { id: 1, name: 'Balón Spalding TF-1000', category: 'Balones', price: 1850, discount: 10, desc: 'Balón oficial de competición con excelente grip.', image: 'imagenes/18106731_38486575_600.webp', url: 'https://zaffarisport.com/products/balon-baloncesto-spalding-tf-1000-n-7' },
+            { id: 2, name: 'Zapatos Nike Kobe', category: 'Zapatos', price: 4790, discount: 20, desc: 'Soporte lateral perfecto para drive y salto.', image: 'imagenes/kobe-ad.avif', url: 'https://www.manelsanchez.com/nike-kobe-1-protro-bryant-legacy-101.html' },
+            { id: 3, name: 'Zapatos Adidas Harden', category: 'Zapatos', price: 5280, desc: 'Cushioning suave y retorno de energía para cancha.', image: 'imagenes/933186-800-auto.webp' },
+            { id: 4, name: 'Camiseta Shooter Pro', category: 'Ropa', price: 1290, desc: 'Tejido liviano con secado rápido.', image: 'imagenes/basketball-shirt-herren-basicACTION1_320x400.webp' },
+            { id: 5, name: 'Shorts Elite', category: 'Ropa', price: 980, discount: 20, desc: 'Ajuste ergonómico y costuras reforzadas.', image: 'imagenes/images.jpg', url: 'https://www.ebay.fr/itm/223321077630' },
+            { id: 6, name: 'Balón Nike Elite', category: 'Balones', price: 1720, discount: 15, desc: 'Textura duradera para entrenamiento y juego.', image: 'imagenes/D_NQ_NP_690287-MLU71951418162_092023-O.webp' },
+            { id: 7, name: 'Balón Wilson Crossover', category: 'Balones', price: 1580, desc: 'Agarre superior y mantención de aire estable.', image: 'imagenes/Wilson-NCAA-Killer-Crossover-Basketball-Official-Size-29-5_17d6d29b-a45c-406a-ab3f-c43a3cd26912_1.17193b164ee0590e4cc5ac43eb5a4385.avif' },
+            { id: 8, name: 'Calcetines compresión', category: 'Accesorios', price: 230, desc: 'Soporte para tobillos y mejor confort en cancha.', image: 'imagenes/D_Q_NP_789172-MLU78713520341_082024-O.webp' },
+            { id: 9, name: 'Muñequera Pro', category: 'Accesorios', price: 290, discount: 25, desc: 'Soporte y absorbe sudor en cada partido.', image: 'imagenes/D_NQ_NP_920150-MCO72623693895_112023-O.webp', url: 'https://articulo.mercadolibre.com.co/MCO-3734945784-dw-munequera-deportiva-transpirable-para-gimnasio-y-basquet-_JM' },
+            { id: 10, name: 'Campera térmica', category: 'Ropa', price: 1750, desc: 'Protección en frío antes y después de entrenar.', image: 'imagenes/D_NQ_NP_634141-MLU70705659779_072023-O.webp' },
+            { id: 11, name: 'Bolso de viaje', category: 'Accesorios', price: 1390, desc: 'Compartimentos para balones, llave y zapatos.', image: 'imagenes/images (1).jpg' },
+            { id: 12, name: 'Balón Street Basketball', category: 'Balones', price: 1120, desc: 'Resistente para asfalto y exteriores.', image: 'imagenes/D_NQ_NP_890945-MLM40158691200_122019-O.webp' }
+        ];
+
+        // Normaliza los productos que usan una sola imagen antes de renderizar sus tarjetas.
+        products.forEach((product) => {
+            if (product.image) product.image = normalizeImageSource(product.image, product.category);
+        });
+
+        // Referencias a controles de la página y moneda recordada entre visitas.
+        const productsContainer = document.getElementById('products');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const searchBox = document.getElementById('searchBox');
+        const cartCountEl = document.getElementById('cartCount');
+        const currencySelector = document.getElementById('currencySelector');
+
+        // Los precios del catálogo parten de COP; estas tasas sirven para mostrarlos en otras monedas.
+        const currencyRates = { COP: 1, USD: 0.00024, MXN: 0.00435, PEN: 0.00091, EUR: 0.00022 };
+        let selectedCurrency = localStorage.getItem('basketCurrency') || 'COP';
+
+        function formatCurrency(amount) {
+            // Formatea el resultado con símbolo y separadores apropiados para la moneda elegida.
+            const rate = currencyRates[selectedCurrency] || 1;
+            const value = amount * rate;
+            const formatter = new Intl.NumberFormat('es-ES', {
+                style: 'currency',
+                currency: selectedCurrency,
+                maximumFractionDigits: selectedCurrency === 'COP' ? 0 : 2
+            });
+            return formatter.format(value);
+        }
+
+        if (currencySelector) {
+            // Guarda la preferencia y vuelve a dibujar las ofertas con los importes convertidos.
+            currencySelector.value = selectedCurrency;
+            currencySelector.addEventListener('change', (event) => {
+                selectedCurrency = event.target.value;
+                localStorage.setItem('basketCurrency', selectedCurrency);
+                renderProducts();
+            });
+        }
+
+        let cart = JSON.parse(localStorage.getItem('cartBasket')) || [];
+
+        function saveCart() {
+            // Mantiene la misma cesta disponible en el resto del sitio.
+            localStorage.setItem('cartBasket', JSON.stringify(cart));
+        }
+
+        function updateCartBadge() {
+            // Suma las cantidades para mostrar el total de unidades junto al icono.
+            if (!cartCountEl) return;
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            cartCountEl.textContent = totalItems > 0 ? totalItems : '';
+        }
+
+        function getEffectivePrice(product) {
+            // Calcula el precio rebajado a partir del precio base y el porcentaje indicado.
+            if (!product) return 0;
+            if (product.discount && product.discount > 0) {
+                return Math.floor(product.price * (1 - product.discount / 100));
+            }
+            return product.price;
+        }
+
+        function addToCart(id) {
+            // Añade una unidad del producto; si ya existe, incrementa su cantidad.
+            const item = products.find(p => p.id === id);
+            if (!item) return;
+            const effectivePrice = getEffectivePrice(item);
+            const existing = cart.find(c => c.id === id);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...item, price: effectivePrice, qty: 1 });
+            }
+            saveCart();
+            updateCartBadge();
+        }
+
+        // Exige descuento y además aplica los filtros opcionales de categoría y texto.
+        function getFilteredProducts() {
+            const category = categoryFilter.value;
+            const search = searchBox.value.trim().toLowerCase();
+            return products.filter((p) => {
+                const matchCategory = category === 'all' || p.category === category;
+                const matchSearch = !search || p.name.toLowerCase().includes(search) || p.desc.toLowerCase().includes(search);
+                const matchDiscount = p.discount && p.discount > 0;
+                return matchDiscount && matchCategory && matchSearch;
+            });
+        }
+
+        // Dibuja las ofertas con su precio anterior, precio rebajado e imagen del artículo.
+        function renderProducts() {
+            const filtered = getFilteredProducts();
+            if (!filtered.length) {
+                productsContainer.innerHTML = '<p class="muted">No se encontraron productos con ese filtro.</p>';
+                return;
+            }
+            productsContainer.innerHTML = filtered.map(p => {
+                const price = getEffectivePrice(p);
+                const hasDiscount = p.discount && p.discount > 0;
+                const priceHtml = hasDiscount
+                    ? `<strong><span class="old-price" data-price-usd="${p.price}">${formatCurrency(p.price)}</span> <span data-price-usd="${price}">${formatCurrency(price)}</span></strong>`
+                    : `<strong><span data-price-usd="${price}">${formatCurrency(price)}</span></strong>`;
+                const discountBadge = hasDiscount ? `<span class="badge-discount">-${p.discount}%</span>` : '';
+
+                return `
+                <article class="card">
+                    ${safeImage(p.images?.[0] || p.image, p.name, { loading: 'lazy' })}
+                    <div class="card-body">
+                        <div class="card-top">
+                            <p class="tag">${p.category}</p>
+                            <h3>${p.name} ${discountBadge}</h3>
+                        </div>
+                        <p>${p.desc}</p>
+                        <div class="card-footer">
+                            ${priceHtml}
+                            <div class="card-actions-footer">
+                                <button class="btn btn-primary" onclick="addToCart(${p.id})">Agregar</button>
+                                ${p.url ? `<a class="btn btn-link" href="${p.url}" target="_blank" rel="noreferrer">Ver en ML</a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+            }).join('');
+        }
+
+        // Reacciona a los filtros y dibuja la lista inicial al terminar la carga del documento.
+        categoryFilter.addEventListener('change', renderProducts);
+        searchBox.addEventListener('input', renderProducts);
+
+        window.addEventListener('load', () => {
+            updateCartBadge();
+            renderProducts();
+        });
+    </script>
+    <script src="../Static/Js/sesion.js"></script>
+</body>
+</html>

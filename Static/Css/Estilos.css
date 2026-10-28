@@ -1,0 +1,1361 @@
+﻿/* Fuentes externas usadas para títulos deportivos y texto de lectura. */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;500;700&family=Montserrat:wght@300;400;600&display=swap');
+
+/* Fondo general, tipografia y color base. */
+body {
+    position: relative;
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: #000;
+    color: #e9f2f7;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Imagen de fondo fija que cambia desde JavaScript. */
+.bg-carousel {
+    position: fixed;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: brightness(0.45) saturate(1.1);
+    transition: background-image 1s ease-in-out;
+    z-index: 0;
+}
+
+/* Contenedor principal comun a todas las paginas. */
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 980px;
+    margin: 28px auto;
+    padding: 24px;
+    background: rgba(8, 14, 29, 0.88);
+    border-radius: 14px;
+    box-shadow: 0 15px 40px #00000073;
+    border-left: 5px solid rgba(255, 59, 48, 0.4);
+}
+
+/* Barra superior: distribuye marca, enlaces, moneda, cuenta y cesta en columnas. */
+header {
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+.hero {
+    padding: 12px 0 4px;
+}
+
+.top-nav {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(250px, 1.2fr) auto;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
+    padding: 18px 22px;
+    min-height: 110px;
+    background: linear-gradient(180deg, rgba(12, 18, 32, 0.9), rgba(8, 12, 24, 0.75));
+    border: 2px solid rgba(255, 209, 102, 0.45);
+    border-radius: 18px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    color: #fff;
+    min-width: 0;
+}
+
+.brand h1 {
+    margin: 0;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    line-height: 1.1;
+}
+
+.brand small {
+    color: #f7dca1;
+    font-size: 0.82rem;
+    display: block;
+    margin-top: 4px;
+    font-style: italic;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    letter-spacing: 0.8px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.logo {
+    width: 92px;
+    height: 92px;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fff, #ffe29e);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: 4px solid rgba(255, 209, 102, 1);
+    box-shadow: 0 12px 28px rgba(255, 170, 0, 0.38), 0 0 18px rgba(255, 255, 255, 0.2);
+    flex-shrink: 0;
+    transform: scale(1.05);
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    justify-content: stretch;
+    gap: 12px;
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    align-items: center;
+    width: 100%;
+    max-width: 320px;
+}
+
+.nav-links li {
+    display: flex;
+    min-width: 0;
+}
+
+.nav-links a {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 10px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.15;
+    text-align: center;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 209, 102, 0.4);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transition: transform .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.nav-links a:hover {
+    color: #ffd166;
+    background: rgba(255, 209, 102, 0.12);
+    border-color: rgba(255, 209, 102, 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(255, 170, 0, 0.15);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    min-width: 170px;
+    margin-left: auto;
+    flex-shrink: 0;
+}
+
+/* Controles de moneda, cesta, cuenta e interacción de botones de navegación. */
+.currency-selector {
+    border: 1px solid rgba(255, 209, 102, 0.45);
+    background: rgba(10, 17, 31, 0.9);
+    color: #fff;
+    border-radius: 8px;
+    min-width: 132px;
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    outline: none;
+    cursor: pointer;
+}
+
+.nav-session-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.nav-session-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-cart {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.04);
+    color: #fff;
+    font-size: 1.3rem;
+    text-decoration: none;
+    position: relative;
+    flex-shrink: 0;
+    transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.login-icon-button {
+    width: 64px;
+    height: 64px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: 50%;
+    text-decoration: none;
+}
+
+.login-icon-button img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-cart:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 209, 102, 0.55);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid #ff3b30;
+    color: #ffefdb;
+    padding: 9px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    line-height: 1;
+    transition: background .2s ease, transform .2s ease, border-color .2s ease;
+}
+
+.btn-outline:hover {
+    background: rgba(255, 59, 48, 0.08);
+    border-color: #ff5f4f;
+    transform: translateY(-1px);
+}
+
+/* Indicadores reutilizados por el catálogo, las ofertas y la cesta. */
+.price {
+    font-size: 1.8em;
+    font-weight: bold;
+    color: #ff3b30;
+    margin: 10px 0;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    min-width: 18px;
+    padding: 0 6px;
+    height: 18px;
+    border-radius: 999px;
+    background: #ff3b30;
+    color: #fff;
+    font-size: 0.75rem;
+    display: grid;
+    place-items: center;
+}
+
+/* Portada de inicio: contenido sobre una imagen con capa oscura para mantener el contraste. */
+.hero-main {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 18px;
+    align-items: center;
+    padding: 24px;
+    border-radius: 18px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transition: background-image 0.8s ease;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.hero-main::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(9, 17, 28, 0.8) 0%, rgba(9, 17, 28, 0.5) 38%, rgba(9, 17, 28, 0.75) 100%);
+    z-index: 0;
+}
+
+.eyebrow {
+    text-transform: uppercase;
+    color: #ffae00;
+    font-weight: 800;
+    font-size: 0.7rem;
+    letter-spacing: 0.8px;
+    margin: 0 0 8px;
+}
+
+.hero-main h2 {
+    margin: 0 0 10px;
+    font-size: 2rem;
+    line-height: 1.2;
+    color: #fff;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-main p {
+    margin: 0 0 14px;
+    color: #d8e0f0;
+    max-width: 520px;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-image {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-image img {
+    width: 100%;
+    border-radius: 14px;
+    border: 2px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.35);
+}
+
+.carousel-controls {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    display: flex;
+    gap: 8px;
+}
+
+.carousel-btn {
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    font-size: 1.2rem;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Resumen de ofertas destacado en inicio, separado de la cuadrícula principal. */
+.landing-offers {
+    margin-bottom: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 12px;
+}
+
+.offer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.offer-card {
+    background: #0d1c3c;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px;
+    color: #fff;
+}
+
+.offer-card h3 {
+    margin: 0 0 6px;
+    font-size: 0.95rem;
+}
+
+.offer-price {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffd166;
+}
+
+.hero-image img {
+    max-height: 260px;
+    object-fit: cover;
+}
+
+h1 {
+    font-family: 'Oswald', sans-serif;
+    color: #ffd166;
+    font-size: 2.2rem;
+    letter-spacing: 1px;
+    margin: 0;
+    text-transform: uppercase;
+    text-shadow: 0 3px 20px rgba(0, 0, 0, 0.35);
+}
+
+.accent {
+    color: #ff3b30;
+    font-weight: 700;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+/* Barra de filtros y elementos que distinguen categoría, descuento y precio anterior. */
+.filters {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.filters-left h2 {
+    margin: 0;
+    font-size: 1.35rem;
+}
+
+.filters-left .muted {
+    margin: 2px 0 0;
+    color: #d0daeb;
+}
+
+.filters-options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.input-filter {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: #0f1a35;
+    color: #fff;
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+}
+
+.card-top {
+    margin-bottom: 6px;
+}
+
+.card-top .tag {
+    display: inline-block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    background: #ff3b30;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-bottom: 4px;
+}
+
+.badge-discount {
+    display: inline-block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 700;
+    background: #16c79a;
+    color: #071428;
+    padding: 2px 8px;
+    border-radius: 999px;
+    margin-left: 6px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: rgba(255, 255, 255, 0.6);
+    margin-right: 6px;
+    font-size: 0.95rem;
+}
+
+.card-body h3 {
+    margin: 0 0 6px;
+    font-size: 1rem;
+}
+
+section {
+    margin-bottom: 20px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.015);
+    border-radius: 10px;
+    border-left: 4px solid rgba(255, 59, 48, 0.35);
+}
+
+/* Espaciado y paneles comunes del contenido principal. */
+main {
+    margin-top: 8px;
+}
+
+section {
+    margin-bottom: 20px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border-left: 4px solid rgba(255, 59, 48, 0.35);
+}
+
+section h2 {
+    font-family: 'Oswald', sans-serif;
+    color: #ffd166;
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card,
+.offer-card,
+.cart-item {
+    transform-origin: center;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.card:hover,
+.card:focus-within,
+.offer-card:hover,
+.cart-item:hover {
+    position: relative;
+    z-index: 2;
+    transform: scale(1.06);
+    border-color: rgba(255, 209, 102, 0.85);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.55);
+}
+
+.card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+}
+
+.card img,
+.cart-item img,
+.product-gallery img {
+    transition: transform .25s ease;
+}
+
+.card:hover img,
+.cart-item:hover img,
+.product-gallery img:hover {
+    transform: scale(1.1);
+}
+
+.product-gallery img {
+    transform-origin: center;
+}
+
+.card-body {
+    padding: 12px;
+}
+
+.card-body h3 {
+    margin: 0;
+    font-size: 1.08rem;
+}
+
+.card-body .muted {
+    color: #99a6b7;
+    font-size: 0.9rem;
+    margin: 4px 0;
+}
+
+.card-body p {
+    margin: 6px 0 10px;
+    line-height: 1.45;
+    color: #dce8f5;
+    font-size: 0.93rem;
+}
+
+.card-footer {
+    margin-top: 8px;
+}
+
+.card-actions-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+}
+
+/* Acciones de cada producto: añadir a la cesta o abrir su información. */
+.btn {
+    border: none;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: #ffa600;
+    color: white;
+    padding: 8px 11px;
+    font-size: 0.9rem;
+    transition: transform .2s ease, background .2s ease;
+}
+
+.btn-primary:hover {
+    background: #ff5f4f;
+    transform: translateY(-2px);
+}
+
+.btn-link {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 7px 10px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: background .2s ease;
+}
+
+.btn-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Componentes de diálogo reutilizables y campos de formulario dentro de un modal. */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: grid;
+    place-items: center;
+    z-index: 10;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: #071428;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    width: min(420px, 92%);
+    padding: 14px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.close-btn {
+    border: none;
+    background: #1e2a4a;
+    color: #fff;
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.modal-body {
+    display: grid;
+    gap: 8px;
+}
+
+.modal-body label {
+    font-size: 0.85rem;
+    color: #e3eafc;
+}
+
+.modal-body input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #334565;
+    background: #0f1f3e;
+    color: #fff;
+}
+
+/* Disposición de los artículos de la cesta, resumen del total y controles de cantidad. */
+.cart {
+    font-size: 0.98rem;
+}
+
+.cart-container {
+    display: flex;
+    gap: 20px;
+}
+
+.cart-items {
+    flex: 1;
+}
+
+.cart-summary {
+    width: 200px;
+    text-align: center;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+#cartItems {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 8px;
+}
+
+.cart-item small {
+    color: #b9c7de;
+}
+
+.cart-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.qty-btn,
+.remove-btn {
+    border: 1px solid #fff2;
+    background: #1f2d4a;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 7px;
+    cursor: pointer;
+}
+
+.remove-btn {
+    background: #d04646;
+    border-color: #c52f2f;
+}
+
+.cart-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    gap: 8px;
+}
+
+.input-filter {
+    border-radius: 8px;
+    border: 1px solid #3b4f7f;
+    background: #121f3f;
+    color: #fff;
+    padding: 8px;
+}
+
+@media (max-width: 820px) {
+
+    /* En tabletas y móviles, apila navegación y portada para evitar columnas estrechas. */
+    .container {
+        margin: 10px;
+        padding: 14px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    section {
+        padding: 12px;
+    }
+
+    .card img {
+        height: 140px;
+    }
+
+    .cart-footer {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .hero-main {
+        grid-template-columns: 1fr;
+    }
+
+    .top-nav {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .brand,
+    .nav-links,
+    .nav-actions {
+        grid-column: 1;
+    }
+
+    .nav-links {
+        max-width: none;
+    }
+
+    .nav-actions {
+        width: 100%;
+        min-width: 0;
+        margin-left: 0;
+    }
+
+    .hero-image img {
+        max-height: 220px;
+    }
+}
+
+/* Reglas específicas de las filas del carrito y su distribución en pantallas compactas. */
+#cartItems {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 8px;
+}
+
+.cart-item small {
+    color: #b9c7de;
+}
+
+.cart-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.qty-btn,
+.remove-btn {
+    border: 1px solid #fff2;
+    background: #1f2d4a;
+    color: #fff;
+    border-radius: 5px;
+    padding: 3px 7px;
+    cursor: pointer;
+}
+
+.remove-btn {
+    background: #d04646;
+    border-color: #c52f2f;
+}
+
+.cart-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+}
+
+@media (max-width: 820px) {
+    .container {
+        margin: 10px;
+        padding: 14px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    section {
+        padding: 12px;
+    }
+
+    .card img {
+        height: 140px;
+    }
+
+    .cart-footer {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+/* Tabla de contenidos, secciones cronológicas e imágenes de la página Conoce. */
+.history-toc {
+    margin: 16px 0 20px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.history-toc strong {
+    font-weight: 700;
+    color: #ffd166;
+}
+
+.history-toc nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.history-toc a {
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    transition: background .2s ease, transform .2s ease;
+}
+
+.history-toc a:hover {
+    background: rgba(255, 255, 255, 0.12);
+    transform: translateY(-1px);
+}
+
+.history-section {
+    margin-bottom: 22px;
+    padding: 20px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.history-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    align-items: center;
+}
+
+.history-text h3 {
+    margin-top: 0;
+}
+
+.history-img img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-width: 820px) {
+
+    /* La historia pasa de dos columnas a una en pantallas pequeñas. */
+    .history-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Maquetación independiente de acceso y registro, dividida entre imagen y formularios. */
+.account-page {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+    overflow-x: hidden;
+    background: #111719;
+}
+
+.account-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(440px, 1.05fr);
+    width: min(1120px, 100%);
+    min-height: 680px;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #f4f2e9;
+    color: #16201e;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+}
+
+.account-visual {
+    position: relative;
+    min-height: 680px;
+    overflow: hidden;
+    background: #1b2827;
+}
+
+.account-visual img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: opacity 0.3s ease;
+}
+
+.account-visual::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+    background: linear-gradient(180deg, rgba(8, 14, 16, 0.04) 32%, rgba(8, 14, 16, 0.84) 100%);
+}
+
+.account-visual-copy {
+    position: absolute;
+    z-index: 1;
+    right: 40px;
+    bottom: 42px;
+    left: 40px;
+    color: #fff;
+}
+
+.account-kicker,
+.account-eyebrow {
+    color: #b5442a;
+    font-size: 0.73rem;
+    font-weight: 800;
+}
+
+.account-kicker {
+    color: #f6c94d;
+}
+
+.account-visual-copy h2 {
+    margin: 12px 0 8px;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 500;
+    line-height: 1.05;
+}
+
+.account-visual-copy p {
+    margin: 0;
+    color: #e3e7e1;
+}
+
+.account-content {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 48px 24px;
+    background: #f4f2e9;
+}
+
+.account-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.account-wordmark {
+    color: #182321;
+    font-family: 'Oswald', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.account-wordmark span {
+    margin-left: 5px;
+    color: #c24c2e;
+}
+
+.account-back {
+    color: #53605b;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.account-back:hover,
+.account-logout:hover {
+    color: #b5442a;
+}
+
+.account-workspace {
+    width: min(420px, 100%);
+    margin: auto;
+    padding: 44px 0;
+}
+
+.account-eyebrow {
+    margin: 0 0 10px;
+    text-transform: uppercase;
+}
+
+.account-workspace h1 {
+    margin: 0;
+    color: #182321;
+    font-family: 'Oswald', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 500;
+    line-height: 1.12;
+}
+
+.account-subtitle,
+.account-active-email {
+    margin: 10px 0 22px;
+    color: #66706b;
+    font-size: 0.92rem;
+}
+
+.account-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin: 26px 0 20px;
+    border-bottom: 1px solid #d6d5ca;
+}
+
+.account-tab {
+    min-height: 44px;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: #6c746f;
+    font: inherit;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.account-tab.is-active {
+    border-bottom-color: #c24c2e;
+    color: #182321;
+}
+
+.account-form {
+    display: grid;
+    gap: 15px;
+}
+
+.account-form[hidden],
+.account-workspace [hidden] {
+    display: none !important;
+}
+
+.account-field {
+    display: grid;
+    gap: 7px;
+    color: #303b37;
+    font-size: 0.83rem;
+    font-weight: 700;
+}
+
+.account-field input {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 46px;
+    padding: 10px 12px;
+    border: 1px solid #c9ccc3;
+    border-radius: 6px;
+    outline: none;
+    background: #fff;
+    color: #182321;
+    font: inherit;
+    font-weight: 400;
+}
+
+.account-field input:focus {
+    border-color: #b5442a;
+    box-shadow: 0 0 0 3px rgba(181, 68, 42, 0.14);
+}
+
+.account-submit {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+    padding: 10px 16px;
+    border: 0;
+    border-radius: 6px;
+    background: #c24c2e;
+    color: #fff;
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.account-submit:hover {
+    background: #a83e26;
+}
+
+.account-message {
+    min-height: 20px;
+    margin: 14px 0 0;
+    font-size: 0.85rem;
+}
+
+.account-message.is-error {
+    color: #a72e22;
+}
+
+.account-message.is-success {
+    color: #27704c;
+}
+
+.account-footnote {
+    margin: 0;
+    color: #7c827a;
+    font-size: 0.75rem;
+    text-align: center;
+}
+
+.account-active {
+    display: grid;
+    gap: 14px;
+}
+
+.account-active h1 span {
+    color: #b5442a;
+}
+
+.account-active .account-active-email {
+    margin: 0;
+}
+
+.account-continue {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.account-logout {
+    justify-self: center;
+    padding: 8px 12px;
+    border: 0;
+    background: transparent;
+    color: #53605b;
+    font: inherit;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+@media (max-width: 820px) {
+
+    /* La página de cuenta apila la imagen y el formulario en tabletas y móviles. */
+    .account-page {
+        display: block;
+        padding: 16px;
+    }
+
+    .account-shell {
+        grid-template-columns: 1fr;
+        width: min(560px, 100%);
+        min-height: 0;
+        margin: 0 auto;
+    }
+
+    .account-visual {
+        min-height: 220px;
+    }
+
+    .account-visual-copy {
+        right: 24px;
+        bottom: 22px;
+        left: 24px;
+    }
+
+    .account-visual-copy h2 {
+        margin-top: 7px;
+        font-size: 2rem;
+    }
+
+    .account-content {
+        min-height: 520px;
+        padding: 24px;
+    }
+
+    .account-workspace {
+        padding: 38px 0;
+    }
+}
+
+@media (max-width: 480px) {
+
+    /* Ajustes adicionales para que la cuenta aproveche el ancho de teléfonos pequeños. */
+    .account-page {
+        padding: 0;
+    }
+
+    .account-shell {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+
+    .account-visual {
+        min-height: 190px;
+    }
+
+    .account-content {
+        min-height: 0;
+        padding: 20px;
+    }
+
+    .account-workspace {
+        padding: 34px 0;
+    }
+
+    .account-workspace h1 {
+        font-size: 2rem;
+    }
+
+    .account-back {
+        font-size: 0.76rem;
+    }
+}

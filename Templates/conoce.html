@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conoce - Historia del Baloncesto</title>
+    <!-- Estilos visuales compartidos. -->
+    <link rel="stylesheet" href="../Static/Css/Estilos.css" />
+</head>
+<body>
+    <div id="bgCarousel" class="bg-carousel" aria-hidden="true"></div>
+    <div class="container">
+        <header class="hero">
+            <!-- Encabezado compartido con enlaces a las secciones principales y al carrito. -->
+            <nav class="top-nav">
+                <div class="brand">
+                    <div class="logo"><img src="../Static/Img/logo.jpg" alt="Legacy Basketball Hub logo" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80';" /></div>
+                    <div>
+                        <h1>Legacy Basketball Hub</h1>
+                        <small>Conoce</small>
+                    </div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="Baloncesto tienda.html" title="Inicio">Inicio🏠</a></li>
+                    <li><a href="productos.html" title="Productos">Productos🏀</a></li>
+                    <li><a href="ofertas.html" title="Ofertas">Ofertas🏷️</a></li>
+                    <li><a href="conoce.html" title="Conoce">Conoce📘</a></li>
+                </ul>
+                <div class="nav-actions">
+                    <a class="nav-cart" href="cesta.html" title="Cesta">
+                        🧺
+                        <span id="cartCount" class="cart-badge" aria-label="Productos en la cesta"></span>
+                    </a>
+                </div>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Presenta el tema de la página antes de ofrecer accesos a cada etapa histórica. -->
+            <section class="filters" id="historia">
+                <div class="filters-left">
+                    <h2>Historia del baloncesto</h2>
+                    <p class="muted">Desde un gimnasio en 1891 hasta el juego global que conocemos hoy.</p>
+                </div>
+            </section>
+
+            <section class="history-toc">
+                <strong>Ir a:</strong>
+                <nav>
+                    <a href="#inicios">Inicios</a>
+                    <a href="#evolucion">Evolución</a>
+                    <a href="#liga">Ligas</a>
+                    <a href="#expansion">Expansión</a>
+                    <a href="#futuro">Futuro</a>
+                </nav>
+            </section>
+
+            <!-- Cada sección representa una etapa de la historia y enlaza texto con una imagen ilustrativa. -->
+            <section id="inicios" class="history-section">
+                <div class="history-grid">
+                    <div class="history-text">
+                        <h3>Los inicios (1891)</h3>
+                        <p>El baloncesto nació en diciembre de 1891 de la mano de <strong>James Naismith</strong>, un profesor de educación física en Springfield, Massachusetts. Naismith creó el juego como una actividad bajo techo para mantener a sus alumnos activos durante el invierno.</p>
+                    </div>
+                    <div class="history-img">
+                        <img src="../Static/conoce imagenes/James Naismith.webp" alt="James Naismith" />
+                    </div>
+                </div>
+            </section>
+
+            <section id="evolucion" class="history-section">
+                <div class="history-grid">
+                    <div class="history-text">
+                        <h3>Evolución temprana</h3>
+                        <p>Las primeras reglas eran simples: 13 normas que incluían la prohibición de driblar y la necesidad de lanzar la pelota a una canasta clavada en una plataforma elevada. Con el tiempo, se introdujeron los dribles, el tiro libre y las posiciones definidas.</p>
+                    </div>
+                    <div class="history-img">
+                        <img src="../Static/conoce imagenes/13 normas.jpg" alt="Las primeras 13 normas del baloncesto" />
+                    </div>
+                </div>
+            </section>
+
+            <section id="liga" class="history-section">
+                <div class="history-grid">
+                    <div class="history-text">
+                        <h3>Nacimiento de las ligas y profesionalismo</h3>
+                        <p>En 1946 se fundó la <strong>Basketball Association of America (BAA)</strong>, que más tarde se convertirá en la <strong>NBA</strong> tras fusionarse con la <em>National Basketball League (NBL)</em>. El baloncesto profesional creció rápidamente y se transformó en uno de los deportes más vistos del mundo.</p>
+                    </div>
+                    <div class="history-img">
+                        <img src="../Static/conoce imagenes/NBA.jfif" alt="NBA" />
+                    </div>
+                </div>
+            </section>
+
+            <section id="expansion" class="history-section">
+                <div class="history-grid">
+                    <div class="history-text">
+                        <h3>La expansión global</h3>
+                        <p>El baloncesto se convirtió en deporte olímpico en 1936 y, a partir de la década de 1990, alcanzó su auge global gracias a figuras como <strong>Michael Jordan</strong>, <strong>Magic Johnson</strong> y <strong>Larry Bird</strong>. Hoy, la FIBA y la NBA trabajan para llevar el deporte a todos los continentes.</p>
+                    </div>
+                    <div class="history-img">
+                        <img src="../Static/conoce imagenes/Bird, Magic, Jordan.jfif" alt="Larry Bird, Magic Johnson y Michael Jordan" />
+                    </div>
+                </div>
+            </section>
+
+            <section id="futuro" class="history-section">
+                <div class="history-grid">
+                    <div class="history-text">
+                        <h3>El futuro del baloncesto</h3>
+                        <p>La tecnología y el análisis de datos siguen cambiando el juego. Además, las ligas femeninas y las versiones 3x3 están ganando popularidad, haciendo que el baloncesto sea más inclusivo y diverso.</p>
+                    </div>
+                    <div class="history-img">
+                        <img src="../Static/conoce imagenes/3x3.jfif" alt="Baloncesto 3x3" />
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- Alterna los fondos decorativos de esta página sin interferir con el contenido histórico. -->
+    <script>
+        // Archivos que forman la secuencia del carrusel de fondo.
+        const backgroundSlides = [
+            '../Static/Imagenes de fondo/Anthony Edwards 1.jpg', '../Static/Imagenes de fondo/Damian Lillard 1.jpg',
+            '../Static/Imagenes de fondo/Devin Booker 1.jpg', '../Static/Imagenes de fondo/Giannis Antetokounmpo 1.jpg',
+            '../Static/Imagenes de fondo/Ja Morant 1.jpg', '../Static/Imagenes de fondo/James Harden 1.jpg',
+            '../Static/Imagenes de fondo/Jayson Tatum 1.jpg', '../Static/Imagenes de fondo/Jimmy Butler 1.jpg',
+            '../Static/Imagenes de fondo/Joel Embiid 1.jpg', '../Static/Imagenes de fondo/Kawhi Leonard 1.jpg',
+            '../Static/Imagenes de fondo/Kevin Durant 1.jpg', '../Static/Imagenes de fondo/Kobe Bryant 1.jpg',
+            '../Static/Imagenes de fondo/Kyrie Irving 1.jpg', '../Static/Imagenes de fondo/LeBron James 1.jpg',
+            '../Static/Imagenes de fondo/Luka Dončić 1.jpg', '../Static/Imagenes de fondo/Michael Jordan 1.jpg',
+            '../Static/Imagenes de fondo/Nikola Jokić 1.jpg', '../Static/Imagenes de fondo/Russell Westbrook 1.jpg',
+            '../Static/Imagenes de fondo/Steph Curry 1.jpg', '../Static/Imagenes de fondo/Victor Wembanyama 1.jpg'
+        ];
+
+        const bgCarousel = document.getElementById('bgCarousel');
+        let bgIndex = 0;
+
+        // Aplica el fondo actual y avanza al siguiente índice, volviendo al inicio al terminar la lista.
+        function renderBackgroundSlide() {
+            if (!bgCarousel) return;
+            bgCarousel.style.backgroundImage = `url('${backgroundSlides[bgIndex]}')`;
+            bgIndex = (bgIndex + 1) % backgroundSlides.length;
+        }
+
+        // Muestra el primer fondo inmediatamente y programa los cambios cada 3,5 segundos.
+        renderBackgroundSlide();
+        setInterval(renderBackgroundSlide, 3500);
+    </script>
+</body>
+</html>
